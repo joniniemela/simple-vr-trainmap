@@ -5,8 +5,11 @@ export const GET_CURRENTLY_RUNNING_TRAINS: TypedDocumentNode<TrainQueryData> = g
   query GetCurrentlyRunningTrains {
   currentlyRunningTrains(where: {operator: {shortCode: {equals: "vr"}}}) {
     trainNumber
+    trainType {
+        name
+    }
     departureDate
-    trainLocations(orderBy: {timestamp: DESCENDING}, take: 1) {
+    trainLocations(where: {speed: {greaterThan: 10}}, orderBy: {timestamp: DESCENDING}, take: 1) {
       speed
       timestamp
       location
