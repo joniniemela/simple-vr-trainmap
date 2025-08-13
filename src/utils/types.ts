@@ -4,6 +4,10 @@ interface trainLocation {
   location: number[];
 }
 
+export interface TrainQueryData {
+  currentlyRunningTrains: TrainQueryItem[];
+}
+
 export interface TrainQueryItem {
   trainNumber: number;
   departureDate: string;
