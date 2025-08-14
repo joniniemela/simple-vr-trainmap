@@ -17,7 +17,7 @@ export default function Home() {
       }, 20000);
 
       return () => clearInterval(interval);
-  }, [refetch]);
+}, [refetch]);
 
   return (
     <>
@@ -39,7 +39,7 @@ export default function Home() {
                   <div key={i}>
                     <div>Speed: {trainLocation.speed} km/h</div>
                     <div>Coordinates:</div>
-                    <div key={i}>
+                    <div>
                       <div>Lat: {trainLocation.location[0]}</div>
                       <div>Lon: {trainLocation.location[1]}</div>
                     </div>
