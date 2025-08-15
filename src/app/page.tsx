@@ -1,8 +1,18 @@
 "use client"
 
 import React, {Suspense, useEffect} from "react";
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { useSuspenseQuery } from "@apollo/client";
 import { GET_CURRENTLY_RUNNING_TRAINS } from '@/graphql/queries';
+import {ModeToggle} from "@/components/ModeToggle";
 
 export default function Home() {
 
@@ -23,30 +33,30 @@ export default function Home() {
     <>
 
       <div className={"flex flex-row items-center justify-between p-8"}>
-        <h1 className={"font-bold text-4xl text-center text-text"}>VR Trains</h1>
+        <h1 className={"font-bold text-4xl text-center"}>VR Trains</h1>
+        <div className={"flex flex-row items-center justify-between gap-4"}>
+          <Button>Log In</Button>
+          <ModeToggle />
+        </div>
+
       </div>
-
-
-      <div className={"flex flex-wrap gap-4 text-custom-text text-text"}>
+      <div className={"flex flex-wrap gap-4 justify-center"}>
         <Suspense fallback={<div>Loading...</div>}>
-          {filteredTrains.map((train) => (
-            <div className={"p-8 border-1 border-gray-200 dark:border-gray-700 dark:bg-background2 shadow-sm rounded-2xl m-8 flex-1 min-w-80"}
-                 key={train.trainNumber + train.departureDate}>
-              <div className={"text-2xl font-bold pb-4"}>{train.trainType.name + train.trainNumber}</div>
-              <div>Departure date: {train.departureDate}</div>
-              <div>
-                <div>{train.trainLocations.map((trainLocation, i) => (
-                  <div key={i}>
-                    <div>Speed: {trainLocation.speed} km/h</div>
-                    <div>Coordinates:</div>
-                    <div>
-                      <div>Lat: {trainLocation.location[0]}</div>
-                      <div>Lon: {trainLocation.location[1]}</div>
-                    </div>
-                  </div>
-                ))}</div>
-              </div>
-            </div>
+          {filteredTrains.map((train, i) => (
+            <Card key={i} className="w-1/7">
+              <CardHeader>
+                <CardTitle>{train.trainType.name + train.trainNumber}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>Departure Date: {train.departureDate}</p>
+                {train.trainLocations.length > 0 && (
+                  <p>Location: {train.trainLocations[0].location.join(", ")}</p>
+                )}
+              </CardContent>
+              <CardFooter>
+                <CardAction>Speed: {train.trainLocations[0]?.speed || 0} km/h</CardAction>
+              </CardFooter>
+            </Card>
           ))}
         </Suspense>
 
