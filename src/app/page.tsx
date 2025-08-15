@@ -32,7 +32,7 @@ export default function Home() {
   return (
     <>
 
-      <div className={"flex flex-row items-center justify-between p-8"}>
+      <div className={"flex flex-row items-center justify-between m-8"}>
         <h1 className={"font-bold text-4xl text-center"}>VR Trains</h1>
         <div className={"flex flex-row items-center justify-between gap-4"}>
           <Button disabled>Admin Panel</Button>
@@ -40,10 +40,10 @@ export default function Home() {
         </div>
 
       </div>
-      <div className={"flex flex-wrap gap-4 justify-center"}>
+      <div className={"flex flex-col gap-4 mx-8 my-4"}>
         <Suspense fallback={<div>Loading...</div>}>
           {filteredTrains.map((train, i) => (
-            <Card key={i} className="w-1/7">
+            <Card key={i} className="w-full">
               <CardHeader>
                 <CardTitle>{train.trainType.name + train.trainNumber}</CardTitle>
               </CardHeader>
