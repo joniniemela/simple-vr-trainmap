@@ -35,7 +35,7 @@ export default function Home() {
       <div className={"flex flex-row items-center justify-between p-8"}>
         <h1 className={"font-bold text-4xl text-center"}>VR Trains</h1>
         <div className={"flex flex-row items-center justify-between gap-4"}>
-          <Button>Log In</Button>
+          <Button disabled>Admin Panel</Button>
           <ModeToggle />
         </div>
 
