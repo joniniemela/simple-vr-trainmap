@@ -59,7 +59,7 @@ export default function MapProvider({
       };
     };
 
-    init();
+    init().catch((error) => console.error(error));
 
     return () => {
       cancelled = true;
