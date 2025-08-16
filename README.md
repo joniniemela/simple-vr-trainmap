@@ -14,5 +14,6 @@ Link to application: https://simple-vr-trainmap.vercel.app/
 ### TODO:
 
 - Map marker pop up with further train data
+- Responsive frontend design for mobile form-factor etc.
 - Timetables table
 - Own backend API for gathering static data and managing it from admin panel
