@@ -1,66 +1,78 @@
 "use client"
 
-import React, {Suspense, useEffect} from "react";
+import React, {useEffect, useRef, useMemo} from "react";
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { useSuspenseQuery } from "@apollo/client";
+import {useSuspenseQuery} from "@apollo/client";
 import { GET_CURRENTLY_RUNNING_TRAINS } from '@/graphql/queries';
 import {ModeToggle} from "@/components/ModeToggle";
+import MapProvider from "@/lib/mapbox/provider";
+import MapStyles from "@/components/map/map-styles";
+import MapControls from "@/components/map/map-controls";
+import Marker from "@/components/map/map-marker";
 
 export default function Home() {
-
-
   const { data, refetch } = useSuspenseQuery(GET_CURRENTLY_RUNNING_TRAINS);
+  const filteredTrains = data?.currentlyRunningTrains.filter(t => t.trainType.name !== "PAI")
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const filteredTrains = data.currentlyRunningTrains.filter(train => train.trainType.name !== 'PAI')
+  const initialViewState = useMemo(
+    () => ({
+      longitude: 25.187237,
+      latitude: 62.5588,
+      zoom: 5,
+    }),
+    []
+  );
 
   useEffect(() => {
-      const interval = setInterval(() => {
-          refetch().catch((error) => {console.error(error)});
-      }, 20000);
-
-      return () => clearInterval(interval);
-}, [refetch]);
+    const interval = setInterval(() => {
+      refetch();
+    }, 12000);
+    return () => clearInterval(interval);
+  }, [refetch]);
 
   return (
-    <>
-
+    <div className={"flex flex-col h-screen"}>
       <div className={"flex flex-row items-center justify-between m-8"}>
         <h1 className={"font-bold text-4xl text-center"}>VR Trains</h1>
         <div className={"flex flex-row items-center justify-between gap-4"}>
           <Button disabled>Admin Panel</Button>
           <ModeToggle />
         </div>
+      </div>
+      <div className="flex flex-col h-screen">
+        <div
+          id="map-container"
+          ref={mapContainerRef}
+          className="absolute inset-0 h-full w-full"
+        />
+        <MapProvider
+          mapContainerRef={mapContainerRef}
+          initialViewState={initialViewState}
+        >
+          <MapControls />
+          <MapStyles />
+          {filteredTrains.map((train) => {
+            const lat = train.trainLocations[0]?.location[1];
+            const lng = train.trainLocations[0]?.location[0];
+            const speed = train.trainLocations[0]?.speed;
+            const trainNumber = train.trainType.name + train.trainNumber;
+            if (lat == null || lng == null || Number.isNaN(lat) || Number.isNaN(lng)) return null;
+
+            return (
+              <Marker
+                key={trainNumber}
+                latitude={lat}
+                longitude={lng}
+                speed={speed}
+                trainNumber={trainNumber}
+              />
+            );
+          })}
+        </MapProvider>
 
       </div>
-      <div className={"flex flex-col gap-4 mx-8 my-4"}>
-        <Suspense fallback={<div>Loading...</div>}>
-          {filteredTrains.map((train, i) => (
-            <Card key={i} className="w-full">
-              <CardHeader>
-                <CardTitle>{train.trainType.name + train.trainNumber}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Departure Date: {train.departureDate}</p>
-                {train.trainLocations.length > 0 && (
-                  <p>Location: {train.trainLocations[0].location.join(", ")}</p>
-                )}
-              </CardContent>
-              <CardFooter>
-                <CardAction>Speed: {train.trainLocations[0]?.speed || 0} km/h</CardAction>
-              </CardFooter>
-            </Card>
-          ))}
-        </Suspense>
 
-      </div>
-    </>
+    </div>
   );
 }
