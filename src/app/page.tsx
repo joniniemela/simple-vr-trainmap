@@ -1,8 +1,8 @@
 "use client"
 
-import React, { useRef } from "react";
+import React, {useEffect, useRef, useMemo} from "react";
 import { Button } from "@/components/ui/button"
-import { useSuspenseQuery } from "@apollo/client";
+import {useSuspenseQuery} from "@apollo/client";
 import { GET_CURRENTLY_RUNNING_TRAINS } from '@/graphql/queries';
 import {ModeToggle} from "@/components/ModeToggle";
 import MapProvider from "@/lib/mapbox/provider";
@@ -11,11 +11,25 @@ import MapControls from "@/components/map/map-controls";
 import Marker from "@/components/map/map-marker";
 
 export default function Home() {
-
-
-  const { data } = useSuspenseQuery(GET_CURRENTLY_RUNNING_TRAINS);
-  const filteredTrains = data.currentlyRunningTrains.filter(train => train.trainType.name !== 'PAI')
+  const { data, refetch } = useSuspenseQuery(GET_CURRENTLY_RUNNING_TRAINS);
+  const filteredTrains = data?.currentlyRunningTrains.filter(t => t.trainType.name !== "PAI")
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const initialViewState = useMemo(
+    () => ({
+      longitude: 25.187237,
+      latitude: 62.5588,
+      zoom: 5,
+    }),
+    []
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, 12000);
+    return () => clearInterval(interval);
+  }, [refetch]);
 
   return (
     <div className={"flex flex-col h-screen"}>
@@ -32,26 +46,22 @@ export default function Home() {
           ref={mapContainerRef}
           className="absolute inset-0 h-full w-full"
         />
-
         <MapProvider
           mapContainerRef={mapContainerRef}
-          initialViewState={{
-            longitude: 28.187237,
-            latitude: 61.0588,
-            zoom: 11,
-          }}
+          initialViewState={initialViewState}
         >
           <MapControls />
           <MapStyles />
-          {filteredTrains.map((train, i) => {
+          {filteredTrains.map((train) => {
             const lat = train.trainLocations[0]?.location[1];
             const lng = train.trainLocations[0]?.location[0];
             const speed = train.trainLocations[0]?.speed;
             const trainNumber = train.trainType.name + train.trainNumber;
+            if (lat == null || lng == null || Number.isNaN(lat) || Number.isNaN(lng)) return null;
 
             return (
               <Marker
-                key={i}
+                key={trainNumber}
                 latitude={lat}
                 longitude={lng}
                 speed={speed}
@@ -60,6 +70,7 @@ export default function Home() {
             );
           })}
         </MapProvider>
+
       </div>
 
     </div>

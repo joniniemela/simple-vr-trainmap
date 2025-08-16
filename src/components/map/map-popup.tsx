@@ -2,7 +2,7 @@
 
 import { useMap } from "@/context/map-context";
 import mapboxgl from "mapbox-gl";
-import { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 
 type PopupProps = {

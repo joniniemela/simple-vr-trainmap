@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState, useMemo} from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -23,39 +23,63 @@ export default function MapProvider({
                                       initialViewState,
                                       children,
                                     }: MapComponentProps) {
-  const map = useRef<mapboxgl.Map | null>(null);
+  const map = useRef<never>(null);
+  const [created, setCreated] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    if (!mapContainerRef.current || map.current) return;
+  useLayoutEffect(() => {
+    let cancelled = false;
 
-    map.current = new mapboxgl.Map({
-      container: mapContainerRef.current,
-      style: "mapbox://styles/mapbox/standard",
-      center: [initialViewState.longitude, initialViewState.latitude],
-      zoom: initialViewState.zoom,
-      attributionControl: false,
-      logoPosition: "bottom-right",
-      collectResourceTiming: false,
-    });
+    const init = async () => {
+      if (!mapContainerRef.current || map.current) return;
 
-    map.current.on("load", () => {
-      setLoaded(true);
-    });
+      const mapboxgl = (await import("mapbox-gl")).default;
+      await import("mapbox-gl/dist/mapbox-gl.css");
+
+      mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
+
+      const m = new mapboxgl.Map({
+        container: mapContainerRef.current,
+        style: "mapbox://styles/mapbox/standard",
+        center: [initialViewState.longitude, initialViewState.latitude],
+        zoom: initialViewState.zoom,
+        attributionControl: false,
+        logoPosition: "bottom-right",
+        collectResourceTiming: false,
+      });
+
+      map.current = m;
+      setCreated(true);
+
+      const onLoad = () => !cancelled && setLoaded(true);
+      m.on("load", onLoad);
+
+      return () => {
+        m.off("load", onLoad);
+      };
+    };
+
+    init();
 
     return () => {
+      cancelled = true;
       if (map.current) {
         map.current.remove();
         map.current = null;
       }
+      setCreated(false);
+      setLoaded(false);
     };
-  }, [initialViewState, mapContainerRef]);
+  }, [mapContainerRef, initialViewState.longitude, initialViewState.latitude, initialViewState.zoom]);
+
+  const ctxValue = useMemo(
+    () => ({ map: created ? (map.current as mapboxgl.Map | null) : null }),
+    [created]
+  );
 
   return (
     <div className="z-[1000]">
-      <MapContext.Provider value={{ map: map.current! }}>
-        {children}
-      </MapContext.Provider>
+      <MapContext.Provider value={ctxValue}>{children}</MapContext.Provider>
       {!loaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-background/80 z-[1000]">
           <div className="text-lg font-medium">Loading map...</div>
