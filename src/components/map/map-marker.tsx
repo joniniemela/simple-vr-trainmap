@@ -1,7 +1,7 @@
 "use client";
 
 import mapboxgl from "mapbox-gl";
-import { useRef, useEffect } from "react";
+import {useRef, useEffect, useCallback} from "react";
 import { useMap } from "@/context/map-context";
 
 interface MarkerProps {
@@ -21,8 +21,7 @@ export default function Marker({ latitude, longitude, trainNumber, speed }: Mark
   const prevLngLatRef = useRef<[number, number] | null>(null);
   const rafRef = useRef<number | null>(null);
 
-  // Helper to render/update marker content
-  const setContent = () => {
+  const setContent = useCallback(() => {
     const el = markerElementRef.current;
     if (!el) return;
     el.innerHTML = `
@@ -38,14 +37,13 @@ export default function Marker({ latitude, longitude, trainNumber, speed }: Mark
         </div>
       </div>
     `;
-  };
+  }, [speed, trainNumber]);
 
   useEffect(() => {
     // Guard: map and valid coords
     if (
       !map ||
-      typeof (map as any).getContainer !== "function" ||
-      !(map as any).getContainer() ||
+      !map.getContainer() ||
       latitude == null ||
       longitude == null ||
       Number.isNaN(latitude) ||
@@ -115,7 +113,7 @@ export default function Marker({ latitude, longitude, trainNumber, speed }: Mark
         rafRef.current = null;
       }
     };
-  }, [map, latitude, longitude, trainNumber, speed]);
+  }, [map, latitude, longitude, trainNumber, speed, setContent]);
 
   // Cleanup on unmount
   useEffect(() => {

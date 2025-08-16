@@ -23,7 +23,7 @@ export default function MapProvider({
                                       initialViewState,
                                       children,
                                     }: MapComponentProps) {
-  const map = useRef<never>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
   const [created, setCreated] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -32,9 +32,6 @@ export default function MapProvider({
 
     const init = async () => {
       if (!mapContainerRef.current || map.current) return;
-
-      const mapboxgl = (await import("mapbox-gl")).default;
-      await import("mapbox-gl/dist/mapbox-gl.css");
 
       mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
