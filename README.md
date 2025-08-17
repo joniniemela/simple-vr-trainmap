@@ -17,3 +17,11 @@ Link to application: https://simple-vr-trainmap.vercel.app/
 - Responsive frontend design for mobile form-factor etc.
 - Timetables table
 - Own backend API for gathering static data and managing it from admin panel
+
+### Authors and acknowledgements
+
+Author: Joni Niemelä
+
+External templates and APIs used:
+- Next.js & Shadcn map ui template by Anmoldeep Singh: https://medium.com/@sainianmol16/build-modern-maps-in-next-js-with-mapbox-and-shadcn-ui-80c276a1e9bf
+- Digitraffic rail traffic API: https://www.digitraffic.fi/rautatieliikenne/
