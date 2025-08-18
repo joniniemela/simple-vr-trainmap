@@ -3,6 +3,7 @@ import "./globals.css";
 import {ApolloWrapper} from "@/app/ApolloWrapper";
 import {ThemeProvider} from "next-themes";
 import React from "react";
+import {Header} from "@/components/layout/Header";
 
 export const metadata: Metadata = {
   title: "Simple VR Train Tracker",
@@ -23,7 +24,10 @@ export default function RootLayout({
       enableSystem
       disableTransitionOnChange
     >
-    <ApolloWrapper>{children}</ApolloWrapper>
+    <div className="flex flex-col h-screen">
+      <Header />
+      <ApolloWrapper>{children}</ApolloWrapper>
+    </div>
     </ThemeProvider>
     </body>
     </html>

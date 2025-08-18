@@ -1,5 +1,5 @@
 import {gql, TypedDocumentNode} from '@apollo/client';
-import {TrainQueryData} from "@/utils/types";
+import {TrainQueryData, TrainTimetablesQueryData} from "@/utils/types";
 
 export const GET_CURRENTLY_RUNNING_TRAINS: TypedDocumentNode<TrainQueryData> = gql`
   query GetCurrentlyRunningTrains {
@@ -17,3 +17,25 @@ export const GET_CURRENTLY_RUNNING_TRAINS: TypedDocumentNode<TrainQueryData> = g
   }
 }
 `;
+
+export const GET_RUNNING_TRAINS_WITH_TIMETABLES: TypedDocumentNode<TrainTimetablesQueryData> = gql`
+query {
+  currentlyRunningTrains {
+    trainType {
+      name
+      trainCategory {
+        name
+      }
+    }
+    trainNumber
+    timeTableRows {
+      scheduledTime
+      actualTime
+      differenceInMinutes
+      station {
+        name
+        shortCode
+      }
+    }
+  }
+}`;
