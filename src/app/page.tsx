@@ -9,6 +9,7 @@ import MapProvider from "@/lib/mapbox/provider";
 import MapStyles from "@/components/map/map-styles";
 import MapControls from "@/components/map/map-controls";
 import Marker from "@/components/map/map-marker";
+import {Header} from "@/components/layout/Header";
 
 export default function Home() {
   const { data, refetch } = useSuspenseQuery(GET_CURRENTLY_RUNNING_TRAINS);
@@ -32,14 +33,6 @@ export default function Home() {
   }, [refetch]);
 
   return (
-    <div className={"flex flex-col h-screen"}>
-      <div className={"flex flex-row items-center justify-between m-8"}>
-        <h1 className={"font-bold text-4xl text-center"}>VR Trains</h1>
-        <div className={"flex flex-row items-center justify-between gap-4"}>
-          <Button disabled>Admin Panel</Button>
-          <ModeToggle />
-        </div>
-      </div>
       <div className="flex flex-col h-screen">
         <div
           id="map-container"
@@ -72,7 +65,5 @@ export default function Home() {
         </MapProvider>
 
       </div>
-
-    </div>
   );
 }
