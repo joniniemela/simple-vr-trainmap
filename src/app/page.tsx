@@ -1,15 +1,12 @@
 "use client"
 
 import React, {useEffect, useRef, useMemo} from "react";
-import { Button } from "@/components/ui/button"
 import {useSuspenseQuery} from "@apollo/client";
 import { GET_CURRENTLY_RUNNING_TRAINS } from '@/graphql/queries';
-import {ModeToggle} from "@/components/ModeToggle";
 import MapProvider from "@/lib/mapbox/provider";
 import MapStyles from "@/components/map/map-styles";
 import MapControls from "@/components/map/map-controls";
 import Marker from "@/components/map/map-marker";
-import {Header} from "@/components/layout/Header";
 
 export default function Home() {
   const { data, refetch } = useSuspenseQuery(GET_CURRENTLY_RUNNING_TRAINS);
@@ -27,7 +24,7 @@ export default function Home() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      refetch();
+      refetch().catch((error) => console.error(error));
     }, 12000);
     return () => clearInterval(interval);
   }, [refetch]);

@@ -19,7 +19,7 @@ export default function TimetablesRoute() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      refetch();
+      refetch().catch((error) => console.error(error));
     }, 12000);
     return () => clearInterval(interval);
   }, [refetch]);
