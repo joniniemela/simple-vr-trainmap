@@ -2,7 +2,7 @@
 
 A simple web-app to show realtime data from Finnish trains. The idea for this is to be a clone for the original VR Trains on map with some additional functionality being added sometime in the future. You can currently view trains on the map with realtime (12s interval) rendering.
 
-Link to application: https://simple-vr-trainmap.vercel.app/
+Link to application: https://vrtrainmap.jmnenterprises.fi/
 
 ### Tech stack & data source
 
