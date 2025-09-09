@@ -20,22 +20,30 @@ export const GET_CURRENTLY_RUNNING_TRAINS: TypedDocumentNode<TrainQueryData> = g
 
 export const GET_RUNNING_TRAINS_WITH_TIMETABLES: TypedDocumentNode<TrainTimetablesQueryData> = gql`
 query {
-  currentlyRunningTrains {
-    trainType {
-      name
-      trainCategory {
-        name
-      }
+    currentlyRunningTrains( ,
+        where: {timeTableRows:{contains:{station:{name:{equals:"Lappeenranta"}}}}}
+    ) {
+        trainType {
+            name
+            trainCategory {
+                name
+            }
+        }
+        trainNumber
+        departureDate
+        timeTableRows(where:  {
+            station:  {
+                name:  {
+                    equals: "Lappeenranta"
+                }
+            }
+        }) {
+            station {
+                name
+                uicCode
+            }
+            liveEstimateTime
+            differenceInMinutes
+        }
     }
-    trainNumber
-    timeTableRows {
-      scheduledTime
-      actualTime
-      differenceInMinutes
-      station {
-        name
-        shortCode
-      }
-    }
-  }
 }`;

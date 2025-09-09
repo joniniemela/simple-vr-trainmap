@@ -33,6 +33,7 @@ export default function TimetablesRoute() {
           <TableRow>
             <TableHead>Train</TableHead>
             <TableHead>Category</TableHead>
+            <TableHead>Difference in minutes</TableHead>
           </TableRow>
         </TableHeader>
       <TableBody>
@@ -43,7 +44,7 @@ export default function TimetablesRoute() {
             <TableRow key={trainNumber}>
               <TableCell className="font-medium">{trainNumber}</TableCell>
               <TableCell>{train.trainType.trainCategory.name}</TableCell>
-              <TableCell></TableCell>
+              <TableCell>{train.timeTableRows[0].differenceInMinutes}</TableCell>
             </TableRow>
           );
         })}
