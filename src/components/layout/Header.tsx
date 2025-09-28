@@ -2,10 +2,7 @@ import React from "react";
 import {ModeToggle} from "@/components/ModeToggle";
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink, NavigationMenuList,
-  NavigationMenuTrigger
+  NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 
