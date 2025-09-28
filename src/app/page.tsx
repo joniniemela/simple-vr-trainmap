@@ -9,7 +9,10 @@ import MapControls from "@/components/map/map-controls";
 import Marker from "@/components/map/map-marker";
 
 export default function Home() {
-  const { data, refetch } = useSuspenseQuery(GET_CURRENTLY_RUNNING_TRAINS);
+  const { data, refetch } = useSuspenseQuery(GET_CURRENTLY_RUNNING_TRAINS, {
+    fetchPolicy: 'cache-and-network',
+    nextFetchPolicy: 'cache-first'
+  });
   const filteredTrains = data?.currentlyRunningTrains.filter(t => t.trainType.name !== "PAI")
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
