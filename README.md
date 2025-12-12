@@ -17,6 +17,7 @@ Link to application: https://vrtrainmap.jmnenterprises.fi/
 - Responsive frontend design for mobile form-factor etc.
 - Timetables table
 - Own backend API for gathering static data and managing it from admin panel
+- Unit tests
 
 ### Authors and acknowledgements
 
