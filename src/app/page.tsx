@@ -1,19 +1,18 @@
 "use client"
 
-import React, {useEffect, useRef, useMemo} from "react";
-import {useSuspenseQuery} from "@apollo/client";
+import React, {useEffect, useRef, useMemo, Suspense} from "react";
+import {useQuery} from "@apollo/client";
 import { GET_CURRENTLY_RUNNING_TRAINS } from '@/graphql/queries';
 import MapProvider from "@/lib/mapbox/provider";
 import MapStyles from "@/components/map/map-styles";
 import MapControls from "@/components/map/map-controls";
 import Marker from "@/components/map/map-marker";
 
-export default function Home() {
-  const { data, refetch } = useSuspenseQuery(GET_CURRENTLY_RUNNING_TRAINS, {
+function TrainMapContent() {
+  const { data, refetch, loading } = useQuery(GET_CURRENTLY_RUNNING_TRAINS, {
     fetchPolicy: 'cache-and-network',
-    nextFetchPolicy: 'cache-first'
   });
-  const filteredTrains = data?.currentlyRunningTrains.filter(t => t.trainType.name !== "PAI")
+  const filteredTrains = data?.currentlyRunningTrains.filter(t => t.trainType.name !== "PAI") || []
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
   const initialViewState = useMemo(
@@ -32,8 +31,12 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [refetch]);
 
+  if (loading && !data) {
+    return <div className="flex items-center justify-center h-full">Loading map...</div>;
+  }
+
   return (
-      <div className="flex flex-col h-screen">
+      <>
         <div
           id="map-container"
           ref={mapContainerRef}
@@ -63,7 +66,16 @@ export default function Home() {
             );
           })}
         </MapProvider>
+      </>
+  );
+}
 
+export default function Home() {
+  return (
+      <div className="flex flex-col h-screen">
+        <Suspense fallback={<div className="flex items-center justify-center h-full">Loading map...</div>}>
+          <TrainMapContent />
+        </Suspense>
       </div>
   );
 }

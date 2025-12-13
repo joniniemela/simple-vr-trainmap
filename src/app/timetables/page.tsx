@@ -2,7 +2,7 @@
 
 import {useSuspenseQuery} from "@apollo/client";
 import {GET_RUNNING_TRAINS_WITH_TIMETABLES} from "@/graphql/queries";
-import React, {useEffect} from "react";
+import React, {Suspense, useEffect} from "react";
 import {
   Table,
   TableBody,
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table"
 
 
-export default function TimetablesRoute() {
+function TimetablesContent() {
   const { data, refetch } = useSuspenseQuery(GET_RUNNING_TRAINS_WITH_TIMETABLES);
   const filteredTrains = data?.currentlyRunningTrains.filter(t => t.trainType.name !== "PAI");
 
@@ -25,9 +25,6 @@ export default function TimetablesRoute() {
   }, [refetch]);
 
   return (
-    <div className="flex flex-col">
-      <h1 className="text-4xl font-bold text-center m-8">Timetables</h1>
-      <p className="text-center mb-8">This page is under construction.</p>
       <Table className={""}>
         <TableHeader>
           <TableRow>
@@ -50,6 +47,17 @@ export default function TimetablesRoute() {
         })}
       </TableBody>
       </Table>
+  );
+}
+
+export default function TimetablesRoute() {
+  return (
+    <div className="flex flex-col">
+      <h1 className="text-4xl font-bold text-center m-8">Timetables</h1>
+      <p className="text-center mb-8">This page is under construction.</p>
+      <Suspense fallback={<div className="text-center">Loading timetables...</div>}>
+        <TimetablesContent />
+      </Suspense>
     </div>
-  )
+  );
 }
