@@ -1,7 +1,7 @@
 "use client"
 
 import React, {useEffect, useRef, useMemo, Suspense} from "react";
-import {useQuery} from "@apollo/client";
+import {useQuery} from "@apollo/client/react";
 import { GET_CURRENTLY_RUNNING_TRAINS } from '@/graphql/queries';
 import MapProvider from "@/lib/mapbox/provider";
 import MapStyles from "@/components/map/map-styles";

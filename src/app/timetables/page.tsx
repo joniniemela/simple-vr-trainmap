@@ -1,6 +1,6 @@
 "use client";
 
-import {useSuspenseQuery} from "@apollo/client";
+import {useSuspenseQuery} from "@apollo/client/react";
 import {GET_RUNNING_TRAINS_WITH_TIMETABLES} from "@/graphql/queries";
 import React, {Suspense, useEffect} from "react";
 import {
