@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="691940e7-119f-4a40-b83e-4b0e6c253375" name="Changes" comment="Fix deps.">
+    <list default="true" id="691940e7-119f-4a40-b83e-4b0e6c253375" name="Changes" comment="Changed package manager and runtime configuration to use bun.">
+      <change afterPath="$PROJECT_DIR$/vercel.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +52,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
@@ -179,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765801253307</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Changed package manager and runtime configuration to use bun.">
+      <option name="closed" value="true" />
+      <created>1765962538404</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1765962538404</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,7 +206,8 @@
     <MESSAGE value="Removed unnecessary imports" />
     <MESSAGE value="Completed migration to nextjs 16 and cache components." />
     <MESSAGE value="Fix deps." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix deps." />
+    <MESSAGE value="Changed package manager and runtime configuration to use bun." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed package manager and runtime configuration to use bun." />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
