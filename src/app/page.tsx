@@ -53,11 +53,13 @@ function TrainMapContent() {
             const lng = train.trainLocations[0]?.location[0];
             const speed = train.trainLocations[0]?.speed;
             const trainNumber = train.trainType.name + train.trainNumber;
+            // Create a unique key using trainType, trainNumber, and departureDate
+            const uniqueKey = `${train.trainType.name}${train.trainNumber}-${train.departureDate}`;
             if (lat == null || lng == null || Number.isNaN(lat) || Number.isNaN(lng)) return null;
 
             return (
               <Marker
-                key={trainNumber}
+                key={uniqueKey}
                 latitude={lat}
                 longitude={lng}
                 speed={speed}

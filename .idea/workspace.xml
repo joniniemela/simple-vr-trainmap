@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="691940e7-119f-4a40-b83e-4b0e6c253375" name="Changes" comment="Changed package manager and runtime configuration to use bun.">
-      <change afterPath="$PROJECT_DIR$/vercel.json" afterDir="false" />
+    <list default="true" id="691940e7-119f-4a40-b83e-4b0e6c253375" name="Changes" comment="Fixed key error and lint.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eslint.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/eslint.config.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/mapbox/provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/mapbox/provider.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +31,10 @@
     &quot;accountId&quot;: &quot;a1310efc-733d-4b3d-a462-9263fbc766cb&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -67,11 +74,11 @@
     "nodejs_package_manager_path": "npm",
     "npm.Next.js: server-side.executor": "Run",
     "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "D:\\web-projects\\simple-vr-trainmap\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\Joni\\Documents\\Web-projektit\\simple-vr-trainmap\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JavaScript Debug.Next.js: debug client-side">
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />
     </configuration>
@@ -207,7 +214,8 @@
     <MESSAGE value="Completed migration to nextjs 16 and cache components." />
     <MESSAGE value="Fix deps." />
     <MESSAGE value="Changed package manager and runtime configuration to use bun." />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed package manager and runtime configuration to use bun." />
+    <MESSAGE value="Fixed key error and lint." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed key error and lint." />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

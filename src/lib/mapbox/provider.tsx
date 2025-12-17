@@ -24,7 +24,7 @@ export default function MapProvider({
                                       children,
                                     }: MapComponentProps) {
   const map = useRef<mapboxgl.Map | null>(null);
-  const [created, setCreated] = useState(false);
+  const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   useLayoutEffect(() => {
@@ -46,7 +46,7 @@ export default function MapProvider({
       });
 
       map.current = m;
-      setCreated(true);
+      setMapInstance(m);
 
       const onLoad = () => !cancelled && setLoaded(true);
       m.on("load", onLoad);
@@ -64,14 +64,14 @@ export default function MapProvider({
         map.current.remove();
         map.current = null;
       }
-      setCreated(false);
+      setMapInstance(null);
       setLoaded(false);
     };
   }, [mapContainerRef, initialViewState.longitude, initialViewState.latitude, initialViewState.zoom]);
 
   const ctxValue = useMemo(
-    () => ({ map: created ? (map.current as mapboxgl.Map | null) : null }),
-    [created]
+    () => ({ map: mapInstance }),
+    [mapInstance]
   );
 
   return (
